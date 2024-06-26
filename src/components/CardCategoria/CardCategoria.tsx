@@ -11,7 +11,7 @@ const CardCategoria = (categoria: Cat) => {
     <div style={{ padding: "30px" }}>
       <a href={`/${categoria.id}`} style={{ textDecoration: "none" }}>
         <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src={categoria.url} />
+          <Card.Img variant="top" src={categoria.url} style={{maxHeight:'150px'}}/>
           <hr />
           <Card.Body>
             <Card.Title style={{ textAlign: "center" }}>

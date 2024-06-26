@@ -8,7 +8,7 @@ type Articulo = {
   denominacion: string;
   precioVenta: number;
   descripcion: string;
-  imagenes: string[];
+  imagenes: { url: string }[];
   categoria: {
     id: number;
   };
@@ -18,6 +18,7 @@ const ListaArticulos = () => {
   const { categoriaId } = useParams<{ categoriaId: string }>();
   const [articulos, setArticulos] = useState<Articulo[]>([]);
   const [filtro, setFiltro] = useState<string>("");
+  const [orden, setOrden] = useState<string>("default");
   const navigate = useNavigate();
 
   const getArticulos = async () => {
@@ -42,12 +43,29 @@ const ListaArticulos = () => {
 
   useEffect(() => {
     getArticulos();
-    console.log(articulos);
-    console.log(articulosFiltrados.length);
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFiltro(event.target.value);
+  };
+
+  const handleOrdenChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setOrden(event.target.value);
+  };
+
+  const ordenarArticulos = (articulos: Articulo[]) => {
+    switch (orden) {
+      case "precioAsc":
+        return [...articulos].sort((a, b) => a.precioVenta - b.precioVenta);
+      case "precioDesc":
+        return [...articulos].sort((a, b) => b.precioVenta - a.precioVenta);
+      case "alfabetico":
+        return [...articulos].sort((a, b) =>
+          a.denominacion.localeCompare(b.denominacion)
+        );
+      default:
+        return articulos;
+    }
   };
 
   // Filtrar los artículos por id de categoría y el filtro de texto
@@ -56,6 +74,8 @@ const ListaArticulos = () => {
       articulo.categoria.id === parseInt(categoriaId) &&
       articulo.denominacion.toLowerCase().includes(filtro.toLowerCase())
   );
+
+  const articulosOrdenados = ordenarArticulos(articulosFiltrados);
 
   return (
     <div
@@ -84,20 +104,33 @@ const ListaArticulos = () => {
       />
 
       <h2>El Buen Sabor</h2>
+      <div>
+        <input
+          style={{ width: "500px", marginBottom:'15px' }}
+          className="form-control"
+          type="text"
+          placeholder="Buscar articulo"
+          value={filtro}
+          onChange={handleInputChange}
+        />
 
-      <input
-        style={{ width: "500px" }}
-        className="form-control"
-        type="text"
-        placeholder="Buscar articulo"
-        value={filtro}
-        onChange={handleInputChange}
-      />
+        <select
+          style={{ width: "500px" }}
+          className="form-control"
+          value={orden}
+          onChange={handleOrdenChange}
+        >
+          <option value="default">Ordenar por</option>
+          <option value="precioAsc">Precio: menor a mayor</option>
+          <option value="precioDesc">Precio: mayor a menor</option>
+          <option value="alfabetico">Orden alfabético</option>
+        </select>
+      </div>
 
       <div
         className="col-12 row"
         style={{
-          border: "1px solid black",
+          //border: "1px solid black",
           padding: "30px",
           display: "flex",
           flexDirection: "row",
@@ -105,16 +138,16 @@ const ListaArticulos = () => {
           justifyContent: "center",
         }}
       >
-        {articulosFiltrados.length !== 0 ? (
-          articulosFiltrados.map((articulo: Articulo) => (
-            <div className="col-4">
-            <CardArticulo
-              id={articulo.id}
-              denominacion={articulo.denominacion}
-              url={articulo.imagenes[0].url}
-              descripcion={articulo.descripcion}
-              precio_venta={articulo.precioVenta}
-            />
+        {articulosOrdenados.length !== 0 ? (
+          articulosOrdenados.map((articulo: Articulo) => (
+            <div className="col-4 pb-3" key={articulo.id}>
+              <CardArticulo
+                id={articulo.id}
+                denominacion={articulo.denominacion}
+                url={articulo.imagenes[0].url}
+                descripcion={articulo.descripcion}
+                precio_venta={articulo.precioVenta}
+              />
             </div>
           ))
         ) : (
@@ -126,3 +159,4 @@ const ListaArticulos = () => {
 };
 
 export default ListaArticulos;
+

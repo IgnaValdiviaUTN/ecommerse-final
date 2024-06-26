@@ -12,7 +12,7 @@ const CardArticulo = (articulo: ArticuloCard) => {
   return (
     <div>
       <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src={articulo.url} />
+        <Card.Img variant="top" src={articulo.url} style={{maxHeight:'150px'}} />
         <hr />
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>
