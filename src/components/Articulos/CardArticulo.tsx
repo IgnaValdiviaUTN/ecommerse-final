@@ -1,6 +1,7 @@
 import { Button, Card } from "react-bootstrap";
 
 type ArticuloCard = {
+  id: number;
   denominacion: string;
   precio_venta: number;
   descripcion: string;
@@ -20,9 +21,10 @@ const CardArticulo = (articulo: ArticuloCard) => {
           <Card.Subtitle className="mb-2 text-muted">
             ${articulo.precio_venta}
           </Card.Subtitle>
-          <Card.Text>{articulo.descripcion}</Card.Text>
           <div style={{ textAlign: "center" }}>
+            <a href={`detalle/${articulo.id}`}>
             <Button variant="primary">Ver detalle</Button>
+            </a>
           </div>
         </Card.Body>
       </Card>

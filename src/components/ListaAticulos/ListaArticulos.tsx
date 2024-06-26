@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 type Articulo = {
+  id: number;
   denominacion: string;
   precioVenta: number;
   descripcion: string;
@@ -108,6 +109,7 @@ const ListaArticulos = () => {
           articulosFiltrados.map((articulo: Articulo) => (
             <div className="col-4">
             <CardArticulo
+              id={articulo.id}
               denominacion={articulo.denominacion}
               url={articulo.imagenes[0].url}
               descripcion={articulo.descripcion}
