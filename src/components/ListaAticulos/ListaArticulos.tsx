@@ -173,7 +173,7 @@ const ListaArticulos = () => {
       </div>
 
       <div
-        className="col-12 row"
+        className="col-12"
         style={{
           //border: "1px solid black",
           padding: "30px",
@@ -185,7 +185,7 @@ const ListaArticulos = () => {
       >
         {articulosOrdenados.length !== 0 ? (
           articulosOrdenados.map((articulo: Articulo) => (
-            <div className="col-4 pb-3" key={articulo.id}>
+            
               <CardArticulo
                 id={articulo.id}
                 denominacion={articulo.denominacion}
@@ -193,7 +193,7 @@ const ListaArticulos = () => {
                 precio_venta={articulo.precioVenta}
                 categoria={articulo.categoria.id}
               />
-            </div>
+            
           ))
         ) : (
           <h3>No hay Articulos</h3>

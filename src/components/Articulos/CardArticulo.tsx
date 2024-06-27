@@ -12,7 +12,7 @@ const CardArticulo = (articulo: ArticuloCard) => {
   const urlDetalle = articulo.categoria === 0 ? `promocion/${articulo.id}` : `detalle/${articulo.id}`;
 
   return (
-    <div>
+    <div style={{ padding: "30px" }}>
       <Card style={{ width: "18rem", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
         <Card.Img variant="top" src={articulo.url} style={{ height: '200px', objectFit: 'cover' }} />
         <hr />
