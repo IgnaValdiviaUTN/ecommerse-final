@@ -2,17 +2,24 @@ import { useEffect, useState } from "react";
 import CardArticulo from "../Articulos/CardArticulo";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import Nav from "../Nav/Nav";
+import Footer from "../Nav/Footer";
 
 type Articulo = {
   id: number;
   denominacion: string;
   precioVenta: number;
-  descripcion: string;
   imagenes: { url: string }[];
   categoria: {
     id: number;
   };
 };
+
+interface Promocion {
+  id: number;
+  denominacion: string;
+  precioPromocional: number;
+}
 
 const ListaArticulos = () => {
   const { categoriaId } = useParams<{ categoriaId: string }>();
@@ -22,9 +29,24 @@ const ListaArticulos = () => {
   const navigate = useNavigate();
 
   const getArticulos = async () => {
-    let datos: Articulo[] = await getArticulosFetchJSON();
-    console.log(datos);
-    setArticulos(datos);
+    if(categoriaId === "0"){
+      let datosPromociones: Promocion[] = await getPromociones();
+      console.log("PROMOCIONES",datosPromociones);
+      let articulosPromocionados = datosPromociones.map(promocion => ({
+        id: promocion.id,
+        denominacion: promocion.denominacion,
+        precioVenta: promocion.precioPromocional,
+        imagenes: [{ url: "https://t3.ftcdn.net/jpg/00/48/29/92/360_F_48299241_I5A7IhGjjSuHYZXuTWhsjvNF2rhIhCMp.jpg" }],
+        categoria: { id: 0 } 
+      }));
+      setArticulos(articulosPromocionados);
+    }else{
+      let datos: Articulo[] = await getArticulosFetchJSON();
+      let datosInsumo: Articulo[] = await getArticulosInsumo();
+      console.log("Manufacturado",datos);
+      console.log("Insumo",datosInsumo);
+      setArticulos([...datos, ...datosInsumo]);
+    }
   };
 
   async function getArticulosFetchJSON() {
@@ -41,8 +63,33 @@ const ListaArticulos = () => {
     return await response.json();
   }
 
+  async function getArticulosInsumo() {
+    const response = await fetch('http://localhost:8080/ArticuloInsumo/noElaborar', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      mode: 'cors',
+    });
+    return await response.json();
+  };
+
+  async function getPromociones(){
+    const response = await fetch('http://localhost:8080/promociones', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      mode: 'cors',
+    });
+    return await response.json();
+  };
+
   useEffect(() => {
     getArticulos();
+    console.log("Articulos",articulos);
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,11 +132,13 @@ const ListaArticulos = () => {
         alignItems: "center",
         gap: "50px",
         padding: "20px",
+        backgroundColor:"rgb(241, 197, 156)",
       }}
     >
+      <Nav></Nav>
       <div className="col-12">
         <Button
-          variant="outline-info"
+          variant="outline-light"
           onClick={() => {
             navigate(-1);
           }}
@@ -97,13 +146,7 @@ const ListaArticulos = () => {
           Volver
         </Button>
       </div>
-      <img
-        style={{ borderRadius: "50%" }}
-        src="https://img.pystatic.com/restaurants/sangucheria-buen-sabor.jpg"
-        alt=""
-      />
-
-      <h2>El Buen Sabor</h2>
+      
       <div>
         <input
           style={{ width: "500px", marginBottom:'15px' }}
@@ -145,8 +188,8 @@ const ListaArticulos = () => {
                 id={articulo.id}
                 denominacion={articulo.denominacion}
                 url={articulo.imagenes[0].url}
-                descripcion={articulo.descripcion}
                 precio_venta={articulo.precioVenta}
+                categoria={articulo.categoria.id}
               />
             </div>
           ))
@@ -154,6 +197,7 @@ const ListaArticulos = () => {
           <h3>No hay Articulos</h3>
         )}
       </div>
+      <Footer></Footer>
     </div>
   );
 };

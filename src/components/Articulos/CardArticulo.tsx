@@ -4,11 +4,13 @@ type ArticuloCard = {
   id: number;
   denominacion: string;
   precio_venta: number;
-  descripcion: string;
   url: string;
+  categoria: number;
 };
 
 const CardArticulo = (articulo: ArticuloCard) => {
+  const urlDetalle = articulo.categoria === 0 ? `promocion/${articulo.id}` : `detalle/${articulo.id}`;
+
   return (
     <div>
       <Card style={{ width: "18rem" }}>
@@ -22,8 +24,8 @@ const CardArticulo = (articulo: ArticuloCard) => {
             ${articulo.precio_venta}
           </Card.Subtitle>
           <div style={{ textAlign: "center" }}>
-            <a href={`detalle/${articulo.id}`}>
-            <Button variant="primary">Ver detalle</Button>
+            <a href={urlDetalle}>
+              <Button variant="warning">Ver detalle</Button>
             </a>
           </div>
         </Card.Body>

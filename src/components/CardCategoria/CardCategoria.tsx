@@ -8,7 +8,7 @@ type Cat = {
 
 const CardCategoria = (categoria: Cat) => {
   return (
-    <div style={{ padding: "30px" }}>
+    <div style={{ padding: "30px"}}>
       <a href={`/${categoria.id}`} style={{ textDecoration: "none" }}>
         <Card style={{ width: "18rem" }}>
           <Card.Img variant="top" src={categoria.url} style={{maxHeight:'150px'}}/>

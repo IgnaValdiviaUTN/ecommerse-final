@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import CardCategoria from "../CardCategoria/CardCategoria";
+import Nav from "../Nav/Nav";
+import Footer from "../Nav/Footer";
 
 type Categoria = {
   id: number;
@@ -12,6 +14,8 @@ const Inicio = () => {
 
   const getCategorias = async () => {
     let datos: Categoria[] = await getCategoriasFetchJSON();
+    const promocionCategoria: Categoria = { id: 0, denominacion: "Promociones", url_imagen: "https://th.bing.com/th/id/OIP.hW63BTTjo0P4Wo2al--OtwHaDf?rs=1&pid=ImgDetMain" };
+    datos = [promocionCategoria, ...datos];
     setCategorias(datos);
   };
 
@@ -43,6 +47,7 @@ const Inicio = () => {
   );
 
   return (
+    
     <div
       style={{
         display: "flex",
@@ -50,15 +55,10 @@ const Inicio = () => {
         alignItems: "center",
         gap: "50px",
         padding: "20px",
+        backgroundColor:"rgb(241, 197, 156)",
       }}
     >
-      <img
-        style={{ borderRadius: "50%" }}
-        src="https://img.pystatic.com/restaurants/sangucheria-buen-sabor.jpg"
-        alt=""
-      />
-
-      <h2>El Buen Sabor</h2>
+      <Nav></Nav>
 
       <input
         style={{ width: "500px" }}
@@ -86,6 +86,8 @@ const Inicio = () => {
           ></CardCategoria>
         ))}
       </div>
+
+      <Footer></Footer>
     </div>
   );
 };

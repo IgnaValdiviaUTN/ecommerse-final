@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Carousel } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import Footer from "../Nav/Footer";
+import Nav from "../Nav/Nav";
 
 type Articulo = {
   denominacion: string;
@@ -18,10 +20,22 @@ const ArticuloDetalle = () => {
 
 
     const getArticulo = async () => {
-        let datos: Articulo = await getArticuloBack();
+      let datos: Articulo | null = null;
+  
+      try {
+        datos = await getArticuloBack();
+      } catch (error) {
+        console.error("Error fetching ArticuloManufacturado:", error);
+        datos = await getArticuloInsumo();
+      }
+  
+      if (datos) {
         console.log(datos);
         setArticulo(datos);
-      };
+      } else {
+        console.error("No se encontró el artículo");
+      }
+    };
     
       async function getArticuloBack() {
         const urlServer = "http://localhost:8080/ArticuloManufacturado/" + detalleId;
@@ -34,8 +48,25 @@ const ArticuloDetalle = () => {
           },
           mode: "cors",
         });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
         return await response.json();
       }
+
+      async function getArticuloInsumo() {
+        const response = await fetch('http://localhost:8080/ArticuloInsumo/' + detalleId, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+          mode: 'cors',
+        });
+        return await response.json();
+      };
     
       useEffect(() => {
         getArticulo();
@@ -44,10 +75,12 @@ const ArticuloDetalle = () => {
 
 
   return (
-    <div className="p-3">
-       <div className="col-12">
+    <div className="p-3" style={{backgroundColor:"rgb(241, 197, 156)",}}>
+      <Nav></Nav>
+
+       <div className="col-12 mt-3">
         <Button
-          variant="outline-info"
+          variant="outline-light"
           onClick={() => {
             navigate(-1);
           }}
@@ -72,7 +105,7 @@ const ArticuloDetalle = () => {
       <Card.Body>
         <Card.Title>{articulo?.denominacion}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">${articulo?.precioVenta}</Card.Subtitle>
-        <Card.Subtitle className="mb-2 text-muted">Tiempo preparación: {articulo?.tiempoEstimadoMinutos} min</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">Tiempo preparación: {articulo?.tiempoEstimadoMinutos | 0} min</Card.Subtitle>
         <hr />
         <Card.Text>
          {articulo?.descripcion}
@@ -80,6 +113,7 @@ const ArticuloDetalle = () => {
       </Card.Body>
       </Card>
       </div>
+      <Footer></Footer>
     </div>
   );
 };
