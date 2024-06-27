@@ -8,10 +8,10 @@ type Cat = {
 
 const CardCategoria = (categoria: Cat) => {
   return (
-    <div style={{ padding: "30px"}}>
+    <div style={{ padding: "30px" }}>
       <a href={`/${categoria.id}`} style={{ textDecoration: "none" }}>
-        <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src={categoria.url} style={{maxHeight:'150px'}}/>
+        <Card style={{ width: "18rem", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
+          <Card.Img variant="top" src={categoria.url} style={{ height: '200px', objectFit: 'cover' }} />
           <hr />
           <Card.Body>
             <Card.Title style={{ textAlign: "center" }}>

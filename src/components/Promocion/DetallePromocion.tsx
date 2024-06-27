@@ -59,18 +59,20 @@ const DetallePromocion = () => {
         </Button>
       </div>
         
-        <Card style={{ width: '30rem',marginTop:'20px' }}>
+        <Card style={{ width: '30rem',marginTop:'20px', boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
             <div style={{padding:'20px',display:'flex',justifyContent:'center',alignItems:'center'}}>
 
             
         <Carousel>
         <img src="https://t3.ftcdn.net/jpg/00/48/29/92/360_F_48299241_I5A7IhGjjSuHYZXuTWhsjvNF2rhIhCMp.jpg" alt="" style={{maxWidth:'300px'}}/>
       </Carousel>
+      
       </div>
 
       <Card.Body>
         <Card.Title>{promocion?.tipoPromocion}: {promocion?.denominacion}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">${promocion?.precioPromocional}</Card.Subtitle>
+        <hr />
         <Card.Text>
             Desde: {promocion?.fechaDesde} - Hasta: {promocion?.fechaHasta} 
             <br />

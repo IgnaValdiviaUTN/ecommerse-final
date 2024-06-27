@@ -89,14 +89,14 @@ const ArticuloDetalle = () => {
         </Button>
       </div>
       <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'50px'}}>
-      <Card style={{ width: '80rem',marginTop:'20px' }}>
+      <Card style={{ width: '80rem',marginTop:'20px', boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
             <div style={{padding:'20px',display:'flex',justifyContent:'center',alignItems:'center'}}>
 
             
         <Carousel>
         {articulo?.imagenes.map((imagen, index) => (
                         <Carousel.Item key={index}>
-                            <img src={imagen.url} alt="" style={{ maxHeight: '300px' }} />
+                            <img src={imagen.url} alt="" style={{ height: '300px', objectFit: 'cover' }} />
                         </Carousel.Item>
                     ))}
       </Carousel>
