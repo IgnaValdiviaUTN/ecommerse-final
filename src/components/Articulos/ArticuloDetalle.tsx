@@ -13,7 +13,7 @@ type Articulo = {
 };
 
 const ArticuloDetalle = () => {
-
+  const url = import.meta.env.VITE_API_URL;
     const { detalleId } = useParams<{ detalleId: string }>();
     const [articulo,setArticulo] = useState<Articulo>(); 
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ const ArticuloDetalle = () => {
     };
     
       async function getArticuloBack() {
-        const urlServer = "http://localhost:8080/ArticuloManufacturado/" + detalleId;
+        const urlServer = `${url}/ArticuloManufacturado/` + detalleId;
     
         const response = await fetch(urlServer, {
           method: "GET",
@@ -57,7 +57,7 @@ const ArticuloDetalle = () => {
       }
 
       async function getArticuloInsumo() {
-        const response = await fetch('http://localhost:8080/ArticuloInsumo/' + detalleId, {
+        const response = await fetch(`${url}/ArticuloInsumo/` + detalleId, {
           method: 'GET',
           headers: {
             'Content-type': 'application/json',

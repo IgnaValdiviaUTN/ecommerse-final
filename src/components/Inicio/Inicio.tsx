@@ -9,6 +9,7 @@ type Categoria = {
   url_imagen: string;
 };
 const Inicio = () => {
+  const url = import.meta.env.VITE_API_URL;
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [filtro, setFiltro] = useState<string>("");
 
@@ -20,7 +21,8 @@ const Inicio = () => {
   };
 
   async function getCategoriasFetchJSON() {
-    const urlServer = "http://localhost:8080/categoria/NoInsumo";
+    const urlServer = `${url}/categoria/NoInsumo`;
+    console.log(urlServer);
     const response = await fetch(urlServer, {
       method: "GET",
       headers: {

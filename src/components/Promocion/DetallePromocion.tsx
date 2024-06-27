@@ -19,12 +19,14 @@ type Promocion = {
 
 
 const DetallePromocion = () => {
+  
+  const url = import.meta.env.VITE_API_URL;
     const {promocionId} = useParams();
     const [promocion, setPromocion] = useState<Promocion>();
     const navigate = useNavigate();
 
     const getPromocion = async () => {
-        const response = await fetch('http://localhost:8080/promociones/'+ promocionId, {
+        const response = await fetch(`${url}/promociones/`+ promocionId, {
           method: 'GET',
           headers: {
             'Content-type': 'application/json',
@@ -62,11 +64,6 @@ const DetallePromocion = () => {
 
             
         <Carousel>
-        {/*promocion.imagenes.map((imagen, index) => (
-                        <Carousel.Item key={index}>
-                            <img src={imagen.url} alt="" style={{ maxWidth: '300px' }} />
-                        </Carousel.Item>
-                    ))*/}
         <img src="https://t3.ftcdn.net/jpg/00/48/29/92/360_F_48299241_I5A7IhGjjSuHYZXuTWhsjvNF2rhIhCMp.jpg" alt="" style={{maxWidth:'300px'}}/>
       </Carousel>
       </div>

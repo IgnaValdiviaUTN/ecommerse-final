@@ -22,6 +22,7 @@ interface Promocion {
 }
 
 const ListaArticulos = () => {
+  const url = import.meta.env.VITE_API_URL;
   const { categoriaId } = useParams<{ categoriaId: string }>();
   const [articulos, setArticulos] = useState<Articulo[]>([]);
   const [filtro, setFiltro] = useState<string>("");
@@ -50,8 +51,8 @@ const ListaArticulos = () => {
   };
 
   async function getArticulosFetchJSON() {
-    const urlServer = "http://localhost:8080/ArticuloManufacturado";
-
+    const urlServer = `${url}/ArticuloManufacturado`;
+    console.log(urlServer);
     const response = await fetch(urlServer, {
       method: "GET",
       headers: {
@@ -64,7 +65,7 @@ const ListaArticulos = () => {
   }
 
   async function getArticulosInsumo() {
-    const response = await fetch('http://localhost:8080/ArticuloInsumo/noElaborar', {
+    const response = await fetch(`${url}/ArticuloInsumo/noElaborar`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -76,7 +77,7 @@ const ListaArticulos = () => {
   };
 
   async function getPromociones(){
-    const response = await fetch('http://localhost:8080/promociones', {
+    const response = await fetch(`${url}/promociones`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
