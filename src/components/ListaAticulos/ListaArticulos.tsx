@@ -119,6 +119,7 @@ const ListaArticulos = () => {
   // Filtrar los artículos por id de categoría y el filtro de texto
   const articulosFiltrados = articulos.filter(
     (articulo) =>
+      // @ts-ignore
       articulo.categoria.id === parseInt(categoriaId) &&
       articulo.denominacion.toLowerCase().includes(filtro.toLowerCase())
   );

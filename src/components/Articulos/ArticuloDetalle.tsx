@@ -8,7 +8,7 @@ type Articulo = {
   denominacion: string;
   precioVenta: number;
   descripcion: string;
-  tiempoEstimadoMinutos:number;
+  tiempoEstimadoMinutos?:number;
   imagenes: { id: number, url: string }[];
 };
 
@@ -105,7 +105,8 @@ const ArticuloDetalle = () => {
       <Card.Body>
         <Card.Title>{articulo?.denominacion}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">${articulo?.precioVenta}</Card.Subtitle>
-        <Card.Subtitle className="mb-2 text-muted">Tiempo preparación: {articulo?.tiempoEstimadoMinutos | 0} min</Card.Subtitle>
+        
+        <Card.Subtitle className="mb-2 text-muted">Tiempo preparación: {articulo?.tiempoEstimadoMinutos ?? 0 } min</Card.Subtitle>
         <hr />
         <Card.Text>
          {articulo?.descripcion}
